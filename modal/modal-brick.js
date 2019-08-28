@@ -6,7 +6,7 @@ export default class ModalBrick extends Brick{
 	static createModal(parent = null){
 		let modal = new Modal();
 		if(parent !== null) modal.parent = parent;
-		modal.body = this.create('div', true, modal);
+		modal.body = this.create();
 		modal.body.controller.modal = modal;
 		modal.body.controller.initializeModal(modal);
 		modal.onShow = (args) => { modal.body.controller.onShowModal(args); };
