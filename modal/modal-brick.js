@@ -1,21 +1,25 @@
 import Modal from "./modal";
 import Brick from "zengular/core/brick";
 
-export default class ModalBrick extends Brick{
+export default class ModalBrick extends Brick {
 
-	static createModal(parent = null){
+	static createModal(parent = null) {
 		let modal = new Modal();
-		if(parent !== null) modal.parent = parent;
-		modal.body = this.create();
-		modal.body.controller.modal = modal;
-		modal.body.controller.initializeModal(modal);
-		modal.onShow = (args) => { modal.body.controller.onShowModal(args); };
-		modal.onClose = () => { return modal.body.controller.onCloseModal(); };
-		return modal;
+		if (parent !== null) modal.parent = parent;
+
+		return this.create('div', false)
+		.then(brick => brick.initializeModal(modal))
+		.then(()=>modal);
 	};
 
-	onShowModal(args){ this.setup(args);}
+	onShowModal(args) { this.render(args);}
 
-	onCloseModal(){}
+	onCloseModal() {}
+
+	initializeModal(modal) {
+		modal.onShow = (args) => { this.onShowModal(args); };
+		modal.onClose = () => { return this.onCloseModal(); };
+		modal.body = this.root;
+	}
 
 }
