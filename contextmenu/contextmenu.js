@@ -8,8 +8,9 @@ export default class Contextmenu{
 		this.menu.classList.add('px-context-menu');
 		this.items = {};
 		this.context = null;
-		document.body.appendChild(this.menu);
-		document.addEventListener('click', () => { this.hide(); });
+		this.menu.addEventListener('mouseleave', event=>{
+			this.hide();
+		})
 	}
 
 	add(label, icon, name = null){
@@ -27,6 +28,7 @@ export default class Contextmenu{
 	}
 
 	show(event, context){
+		document.body.appendChild(this.menu);
 
 		event.preventDefault();
 		this.context = context;
@@ -43,7 +45,10 @@ export default class Contextmenu{
 
 	}
 
-	hide(){ this.menu.classList.remove('active'); }
+	hide(){
+		document.body.removeChild(this.menu);
+		this.menu?.classList.remove('active');
+	}
 
 	static getCoords(event){
 		let clickX = 0;
@@ -60,8 +65,8 @@ export default class Contextmenu{
 		}
 
 		if(event.pageX || event.pageY){
-			clickX = event.pageX;
-			clickY = event.pageY;
+			clickX = event.pageX - 5;
+			clickY = event.pageY - 5;
 		}
 
 		return {

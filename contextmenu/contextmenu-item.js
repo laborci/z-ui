@@ -11,7 +11,7 @@ export default class ContextmenuItem{
 				this.onclick(this.menu.context);
 				this.menu.hide();
 			}
-		})
+		});
 	}
 
 	click(onclick){
